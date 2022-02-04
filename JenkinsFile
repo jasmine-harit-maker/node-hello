@@ -1,9 +1,12 @@
 // Declarative //
 pipeline {
-    agent any
+    agent none
 
     stages {
         stage('Build') {
+        agent {
+                        label "maven"
+                    }
             steps {
                 echo 'Building..'
             }
