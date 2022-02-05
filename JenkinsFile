@@ -1,31 +1,25 @@
-// Declarative //
 pipeline {
     agent none
-
     stages {
-        stage('Build') {
-        agent {
-                        label "maven"
+        stage('Run Tests') {
+            parallel {
+                stage('Test On Linux') {
+                    agent {
+                        label "linux"
                     }
-            steps {
-                echo 'Building..'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+                    steps {
+                        echo "Running on Linux"
+                    }
+                }
+                stage('Test On Docker') {
+                    agent {
+                        label "Docker"
+                    }
+                    steps {
+                        echo "Running on Docker"
+                    }                    
+                }
             }
         }
     }
-}
-
-// Script //
-node {
-    checkout scm 
-    /* .. snip .. */
 }
