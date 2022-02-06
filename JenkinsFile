@@ -1,25 +1,16 @@
 pipeline {
-    agent none
+    agent any
+     
     stages {
-        stage('Run Tests') {
-            parallel {
-                stage('Test On Linux') {
-                    agent {
-                        label "linux"
-                    }
-                    steps {
-                        echo "Running on Linux"
-                    }
-                }
-                stage('Test On Docker') {
-                    agent {
-                        label "Docker"
-                    }
-                    steps {
-                        echo "Running on Docker"
-                    }                    
-                }
+        stage('Ok') {
+            steps {
+                echo "Ok"
             }
+        }
+    }
+    post {
+        always {
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
         }
     }
 }
